@@ -29,14 +29,7 @@ namespace ChainingEngine.ViewModels
             this.IniciarCommand = new Command(() =>Iniciar(window, hecho));
         }
 
-        private void Iniciar(MainView window, Hipotesis hipotesis)
-        {
-            hipotesis.Run(window);
-
-        }
-        private void Iniciar(MainView window, Hecho hecho)
-        {
-            hecho.Run(window);
-        }
+        private void Iniciar(MainView window, Hipotesis hipotesis)=> hipotesis.Run(window);
+        private void Iniciar(MainView window, Hecho hecho)=>hecho.Run(window);
     }
 }

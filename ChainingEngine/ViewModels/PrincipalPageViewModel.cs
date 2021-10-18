@@ -19,9 +19,9 @@ namespace ChainingEngine.ViewModels
         public MainView MainView { get; }
         public PrincipalPageViewModel(MainView mainView)
         {
-            this.AdelanteCommand = new Command(Adelante);
-            this.AtrasCommand = new Command(Atras);
-            this.MainView = mainView;
+            AdelanteCommand = new Command(Adelante);
+            AtrasCommand = new Command(Atras);
+            MainView = mainView;
         }
 
         private void Atras()
@@ -32,14 +32,14 @@ namespace ChainingEngine.ViewModels
             var noc = new Comportamiento("No tengo ese síntoma", none);
 
             Engine.Run(MainView,Hipotesis.New("Podría estar resfriado",
-                new Evidencia("Comportamiento de los síntomas",new Comportamiento("Gradual",rf),
-                new Comportamiento("Repentino",ifz), noc),
-                new Evidencia("Fatiga, debilidad", new Comportamiento("A veces", rf), new Comportamiento("Normal",ifz), noc),
-                new Evidencia("Estornudos", new Comportamiento("Común",rf), new Comportamiento("A veces", ifz), noc),
-                new Evidencia("Incomodidad en el pecho, tos", new Comportamiento("Leve o moderado",rf), new Comportamiento("Común, incomodidad intensa",ifz), noc),
-                new Evidencia("Naríz tapada", new Comportamiento("Común", rf), new Comportamiento("A veces",ifz), noc),
-                new Evidencia("Dolor de garganta", new Comportamiento("Común",rf), new Comportamiento("A veces", ifz), noc),
-                new Evidencia("Dolor de cabeza", new Comportamiento("Poco frecuente",rf), new Comportamiento("Común",ifz),noc),
+                new Evidencia("Comportamiento de los síntomas", new Comportamiento("Gradual", rf),
+                new Comportamiento("Repentino", ifz), noc),
+                new Evidencia("Fatiga, debilidad", new Comportamiento("A veces", rf), new Comportamiento("Normal", ifz), noc),
+                new Evidencia("Estornudos", new Comportamiento("Común", rf), new Comportamiento("A veces", ifz), noc),
+                new Evidencia("Incomodidad en el pecho, tos", new Comportamiento("Leve o moderado", rf), new Comportamiento("Común, incomodidad intensa", ifz), noc),
+                new Evidencia("Naríz tapada", new Comportamiento("Común", rf), new Comportamiento("A veces", ifz), noc),
+                new Evidencia("Dolor de garganta", new Comportamiento("Común", rf), new Comportamiento("A veces", ifz), noc),
+                new Evidencia("Dolor de cabeza", new Comportamiento("Poco frecuente", rf), new Comportamiento("Común", ifz), noc),
                 new Evidencia("Fiebre", new Comportamiento("Poco frecuente", rf), new Comportamiento("Frecuente", ifz), noc),
                 new Evidencia("Dolor muscular", new Comportamiento("Leve", rf), new Comportamiento("Frecuente, dolores fuertes", ifz), noc),
                 new Evidencia("Escalofríos", new Comportamiento("Poco común", rf), new Comportamiento("Bastante común", rf), noc)));

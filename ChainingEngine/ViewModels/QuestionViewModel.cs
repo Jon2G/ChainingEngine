@@ -14,8 +14,9 @@ namespace ChainingEngine.ViewModels
 {
     public class QuestionViewModel : ModelBase
     {
-        public IQuestion Question { get; }
+       
         public ICommand AnswerCommand { get; set; }
+        public IQuestion Question { get; }
         public QuestionViewModel(MainView window, BaseHipotesis question)
         {
             this.Question = question;
