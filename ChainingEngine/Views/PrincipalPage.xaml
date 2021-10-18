@@ -1,0 +1,52 @@
+﻿<ContentControl x:Class="ChainingEngine.Views.PrincipalPage"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                xmlns:local="clr-namespace:ChainingEngine.Views"
+                xmlns:hc="https://handyorg.github.io/handycontrol"
+                xmlns:viewModels="clr-namespace:ChainingEngine.ViewModels"
+                mc:Ignorable="d" 
+                d:DataContext="{d:DesignInstance d:Type={x:Type viewModels:PrincipalPageViewModel},IsDesignTimeCreatable=False}">
+    <DockPanel>
+     
+        <hc:TransitioningContentControl TransitionMode="Left2Right" DockPanel.Dock="Bottom" Margin="20">
+            <StackPanel>
+                <TextBlock Text="García García Jonathan Eduardo" FontSize="16"/>
+                <TextBlock Text="González Santiesteban Santiago" FontSize="16"/>
+                <TextBlock Text="Jiménez Angeles Daniel Antonio" FontSize="16"/>
+            </StackPanel>
+        </hc:TransitioningContentControl>
+        <hc:SimplePanel DockPanel.Dock="Top">
+            <hc:TransitioningContentControl TransitionMode="Bottom2Top">
+                <StackPanel Margin="25" VerticalAlignment="Center">
+                    <hc:SimplePanel  VerticalAlignment="Center" >
+
+                        <StackPanel>
+                            <TextBlock TextWrapping="Wrap" TextAlignment="Center"
+                                       Text="MOTOR DE INFERENCIA"  FontSize="50" 
+                                       FontWeight="Bold" Foreground="Black"/>
+                        </StackPanel>
+
+                    </hc:SimplePanel>
+                    <hc:ButtonGroup>
+                        <Button Margin="25" MaxWidth="300" Padding="20" Height="100"
+                                FontWeight="Bold" FontSize="15" HorizontalAlignment="Stretch"
+                                Background="{StaticResource InfoBrush}"
+                                Command="{Binding AdelanteCommand}" >
+                            <TextBlock Text="Encadenamiento hacia adelante" Foreground="{StaticResource TextIconBrush}"/>
+                        </Button>
+                        <Button Margin="25" MaxWidth="300" Padding="20" Height="100"
+                                FontWeight="Bold" FontSize="15" HorizontalAlignment="Stretch"
+                                Style="{DynamicResource ButtonSuccess}" 
+                                Background="{StaticResource InfoBrush}"
+                                Command="{Binding AtrasCommand}" >
+                            <TextBlock Text="Encadenamiento hacia atrás" Foreground="{StaticResource TextIconBrush}"/>
+                        </Button>
+                    </hc:ButtonGroup>
+                </StackPanel>
+            </hc:TransitioningContentControl>
+        </hc:SimplePanel>
+    </DockPanel>
+
+</ContentControl>

@@ -1,0 +1,33 @@
+﻿<ContentControl x:Class="ChainingEngine.Views.StartupView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ChainingEngine.Views"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        xmlns:viewModels="clr-namespace:ChainingEngine.ViewModels"
+        mc:Ignorable="d" x:Name="Window"
+        d:DataContext="{d:DesignInstance d:Type={x:Type viewModels:StartupViewModel},IsDesignTimeCreatable=False}">
+    <hc:SimplePanel>
+        <hc:TransitioningContentControl TransitionMode="Bottom2Top">
+            <StackPanel Margin="25" VerticalAlignment="Center">
+                <hc:SimplePanel  VerticalAlignment="Center" >
+                    
+                        <StackPanel>
+                            <TextBlock TextWrapping="Wrap" TextAlignment="Center"
+                                       Text="{Binding Hipotesis}"  FontSize="30" 
+                                       FontWeight="Bold" Foreground="Black"/>
+                        </StackPanel>
+                    
+                </hc:SimplePanel>
+                <hc:ButtonGroup>
+                    <Button Margin="25" MaxWidth="200" Padding="20" Height="100"
+                            Content="INICIAR" FontWeight="Bold" FontSize="20" HorizontalAlignment="Stretch"
+                            Style="{StaticResource ButtonSuccess}" 
+                            Command="{Binding IniciarCommand}" >
+                    </Button>
+                </hc:ButtonGroup>
+            </StackPanel>
+        </hc:TransitioningContentControl>
+    </hc:SimplePanel>
+</ContentControl>

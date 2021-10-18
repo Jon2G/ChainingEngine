@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ChainingEngine.Views;
 
 namespace ChainingEngine.Interfaces
 {
@@ -10,6 +11,6 @@ namespace ChainingEngine.Interfaces
     {
         public bool Answer { get; set; }
         public string Question { get; set; }
-        public void Ask();
+        public void Ask(MainView mainView);
     }
 }

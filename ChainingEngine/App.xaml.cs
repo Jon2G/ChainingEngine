@@ -5,31 +5,39 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
+using AsyncAwaitBestPractices;
 using ChainingEngine.Models;
 using ChainingEngine.Models.Adelante;
+using ChainingEngine.Models.Atras;
+using HandyControl.Data;
+using HandyControl.Themes;
+using HandyControl.Tools;
+using Kit;
+using Prism.Ioc;
 
 namespace ChainingEngine
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App
     {
-        public App()
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+        }
+
+        internal void UpdateSkin(SkinType skin)
         {
 
-
-            Hecho hecho = Hecho.New("Es una CocaCola")
-                .SetHipotesis(Hipotesis<HechoInferido>.New("Es color marrón")
-                    .Set(
-                        verdadero: (HechoInferido)HechoInferido.New("Es color marrón").SetHipotesis(Hipotesis<Conclusion>.New("La etiqueta es roja").Set(Conclusion.New("Cumple con los estándares"), Conclusion.New("No cumple con los estándares"))),
-                        falso: HechoInferido.New("No es color marrón").SetConclusion(Conclusion.New("No es CocaCola"))));
-
-
-
-
-
-
+            SharedResourceDictionary.SharedDictionaries.Clear();
+            Resources.MergedDictionaries.Add(ResourceHelper.GetSkin(skin));
+            Resources.MergedDictionaries.Add(new ResourceDictionary
+            {
+                Source = new Uri("pack://application:,,,/HandyControl;component/Themes/Theme.xaml")
+            });
+            Current.MainWindow?.OnApplyTemplate();
         }
     }
 }
