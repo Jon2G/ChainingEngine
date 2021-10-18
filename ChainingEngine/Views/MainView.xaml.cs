@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ChainingEngine.ViewModels;
+using HandyControl.Data;
 
 namespace ChainingEngine.Views
 {
@@ -23,11 +24,27 @@ namespace ChainingEngine.Views
         public MainView()
         {
             InitializeComponent();
+            Restart();
         }
 
         internal void Restart()
         {
-            this.Content = null;
+            this.Content = new PrincipalPage(this);
         }
+
+        #region Change Skin
+
+        private void ButtonConfig_OnClick(object sender, RoutedEventArgs e) => PopupConfig.IsOpen = true;
+
+        private void ButtonSkins_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (e.OriginalSource is Button button && button.Tag is SkinType tag)
+            {
+                PopupConfig.IsOpen = false;
+                ((App)Application.Current).UpdateSkin(tag);
+            }
+        }
+
+        #endregion Change Skin
     }
 }

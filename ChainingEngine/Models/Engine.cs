@@ -13,17 +13,13 @@ namespace ChainingEngine.Models
 {
     public static class Engine
     {
-        public static void Run(Hipotesis hipotesis)
+        public static void Run(MainView mainView, Hipotesis hipotesis)
         {
-            MainView mainView = new MainView();
             mainView.Content = new StartupView(new StartupViewModel(mainView, hipotesis));
-            mainView.ShowDialog();
         }
-        public static void Run(Hecho hecho)
+        public static void Run(MainView mainView, Hecho hecho)
         {
-            MainView mainView = new MainView();
             mainView.Content = new StartupView(new StartupViewModel(mainView, hecho));
-            mainView.ShowDialog();
         }
     }
 }

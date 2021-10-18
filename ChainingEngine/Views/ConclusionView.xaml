@@ -23,9 +23,10 @@
                 </hc:SimplePanel>
                 <hc:ButtonGroup>
                     <Button Margin="25" MaxWidth="200" Padding="20" Height="100"
-                            Content="FINALIZAR" FontWeight="Bold" FontSize="20" HorizontalAlignment="Stretch"
-                            Style="{StaticResource ButtonSuccess}" 
+                            FontWeight="Bold" FontSize="20" HorizontalAlignment="Stretch"
+                            Background="{StaticResource SuccessBrush}"
                             Command="{Binding EndCommand}" CommandParameter="{StaticResource TrueValue}" >
+                        <TextBlock Text="FINALIZAR" Foreground="{StaticResource TextIconBrush}"/>
                     </Button>
                 </hc:ButtonGroup>
             </StackPanel>

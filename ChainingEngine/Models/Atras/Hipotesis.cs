@@ -1,28 +1,54 @@
 ﻿using System;
+using ChainingEngine.Views;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ChainingEngine.Models.Adelante;
-using ChainingEngine.Views;
+using ChainingEngine.ViewModels;
+using Kit;
 
 namespace ChainingEngine.Models.Atras
 {
-    public class Hipotesis : List<Evidencia>
+    public class Hipotesis : Queue<Evidencia>
     {
         public string Question { get; set; }
+        public List<Comportamiento> Comportamientos { get; }
         public Hipotesis(string question, params Evidencia[] evidencias)
         {
+            this.Comportamientos = new List<Comportamiento>();
             Question = question;
-            this.AddRange(evidencias);
+            foreach (Evidencia evidencia in evidencias.Shuffle(new Random()))
+            {
+                this.Enqueue(evidencia);
+            }
         }
 
         public static Hipotesis New(string question, params Evidencia[] evidencias) => new Hipotesis(question, evidencias);
 
-        public void Run(MainView window)
+        public async void Run(MainView window)
         {
-            //? y la ventana la de la primera hipotesis seria la starup no?
-            throw new NotImplementedException();
+            while (this.Any())
+            {
+                var evidencia = this.Dequeue();
+                Comportamiento comportamiento = await evidencia.Run(window);
+                this.Comportamientos.Add(comportamiento);
+            }
+            //totales
+
+            List<Tuple<Conclusion, int>> resultados = this.Comportamientos.GroupBy(x => x.Conclusion)
+                 .Select(g => new Tuple<Conclusion, int>(g.Key, g.Select(z => z.Answer).Count())).ToList();
+
+            Tuple<Conclusion, int>? Tconclusion = resultados.OrderBy(x => x.Item2).OrderByDescending(x => x.Item2).FirstOrDefault();
+
+            Conclusion conclusion = Tconclusion.Item1;
+            if (resultados.Any(x => x.Item2 == Tconclusion.Item2 && x.Item1 != conclusion)) //EFECTIVAMENTE 50/50,tambien
+            {
+                conclusion = new Conclusion("Resultado inconcluso");
+            }
+            //si sirve?
+            var view = new ConclusionView();
+            var model = new ConclusionViewModel(window, conclusion);
+            view.DataContext = model;
+            window.Content = view;
         }
     }
 }

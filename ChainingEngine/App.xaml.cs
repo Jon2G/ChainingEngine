@@ -10,7 +10,11 @@ using AsyncAwaitBestPractices;
 using ChainingEngine.Models;
 using ChainingEngine.Models.Adelante;
 using ChainingEngine.Models.Atras;
+using HandyControl.Data;
+using HandyControl.Themes;
+using HandyControl.Tools;
 using Kit;
+using Prism.Ioc;
 
 namespace ChainingEngine
 {
@@ -22,37 +26,18 @@ namespace ChainingEngine
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            //Engine.Run(Hecho.New("Es una CocaCola")
-            //    .SetHipotesis(Hipotesis<HechoInferido>.New("Es color marrón")
-            //        .Set(
-            //            verdadero: (HechoInferido)HechoInferido.New("Es color marrón").SetHipotesis(Hipotesis<Conclusion>.New("La etiqueta es roja").Set(Conclusion.New("Cumple con los estándares"), Conclusion.New("No cumple con los estándares"))),
-            //            falso: HechoInferido.New("No es color marrón").SetConclusion(Conclusion.New("No es CocaCola")))));
-
-
-            //Atras
-            string no = "No tengo ese síntoma";
-            var rf = Conclusion.New("Resfriado");
-            var ifz = Conclusion.New("Influenza");
-            var none = Conclusion.New("No tiene resfriado ni influenza");
-
-            Engine.Run(Hipotesis.New("Podría estar resfriado",
-                new Evidencia("Fiebre",
-                    new Comportamiento("Poco frecuente", rf),
-                    new Comportamiento("Frecuente", ifz),
-                    new Comportamiento(no, none)),
-                new Evidencia("Dolor muscular",
-                    new Comportamiento("Leve", rf),
-                    new Comportamiento("Frecuente, dolores fuertes", ifz),
-                    new Comportamiento(no, none)),
-                new Evidencia("Escalofríos",
-                    new Comportamiento("Poco común", rf),
-                    new Comportamiento("Bastante común", rf),
-                    new Comportamiento(no, none))));
         }
 
-        public App()
+        internal void UpdateSkin(SkinType skin)
         {
-            Kit.WPF.Tools.Init();
+
+            SharedResourceDictionary.SharedDictionaries.Clear();
+            Resources.MergedDictionaries.Add(ResourceHelper.GetSkin(skin));
+            Resources.MergedDictionaries.Add(new ResourceDictionary
+            {
+                Source = new Uri("pack://application:,,,/HandyControl;component/Themes/Theme.xaml")
+            });
+            Current.MainWindow?.OnApplyTemplate();
         }
     }
 }
