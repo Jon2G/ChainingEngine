@@ -28,9 +28,7 @@ namespace ChainingEngine.Models.Adelante
                 base.Run(window);
                 return;
             }
-
-            throw new NotImplementedException();
-
+            Conclusion.Run(window);
         }
     }
 }

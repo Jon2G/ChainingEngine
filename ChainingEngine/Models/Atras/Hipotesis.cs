@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ChainingEngine.Models.Adelante;
+using ChainingEngine.Views;
 
 namespace ChainingEngine.Models.Atras
 {
@@ -17,5 +18,11 @@ namespace ChainingEngine.Models.Atras
         }
 
         public static Hipotesis New(string question, params Evidencia[] evidencias) => new Hipotesis(question, evidencias);
+
+        public void Run(MainView window)
+        {
+            //? y la ventana la de la primera hipotesis seria la starup no?
+            throw new NotImplementedException();
+        }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using ChainingEngine.Models.Adelante;
+using ChainingEngine.Models.Atras;
 using ChainingEngine.Views;
 using Kit.Extensions;
 using Kit.Model;
@@ -16,7 +17,7 @@ namespace ChainingEngine.ViewModels
         public string Hipotesis { get; }
         public ICommand IniciarCommand { get; }
 
-        public StartupViewModel(MainView window, BaseHipotesis hipotesis)
+        public StartupViewModel(MainView window, Hipotesis hipotesis)
         {
             this.Hipotesis = hipotesis.Question;
             this.IniciarCommand = new Command(() => Iniciar(window, hipotesis));
@@ -28,9 +29,9 @@ namespace ChainingEngine.ViewModels
             this.IniciarCommand = new Command(() =>Iniciar(window, hecho));
         }
 
-        private void Iniciar(MainView window, BaseHipotesis hipotesis)
+        private void Iniciar(MainView window, Hipotesis hipotesis)
         {
-            throw new NotImplementedException();
+            hipotesis.Run(window);
 
         }
         private void Iniciar(MainView window, Hecho hecho)
