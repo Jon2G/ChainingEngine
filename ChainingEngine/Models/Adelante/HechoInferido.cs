@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ChainingEngine.Views;
 
 namespace ChainingEngine.Models.Adelante
 {
@@ -18,6 +19,18 @@ namespace ChainingEngine.Models.Adelante
         {
             Conclusion = conclusion;
             return this;
+        }
+
+        public override void Run(MainView window)
+        {
+            if (Conclusion is null)
+            {
+                base.Run(window);
+                return;
+            }
+
+            throw new NotImplementedException();
+
         }
     }
 }

@@ -4,25 +4,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ChainingEngine.Interfaces;
+using ChainingEngine.ViewModels;
+using ChainingEngine.Views;
 
 namespace ChainingEngine.Models.Adelante
 {
-    public abstract class BaseHipotesis : ObjectBase, IQuestion
+    public  class BaseHipotesis : ObjectBase, IQuestion
     {
         public bool Answer { get; set; }
         public string Question { get; set; }
-        public abstract void Ask();
+
+        public BaseHipotesis(string question)
+        {
+            Question = question;
+        }
+        public static BaseHipotesis New(string descripcion) => new BaseHipotesis(descripcion);
+        public virtual void Ask(MainView main){}
     }
     public class Hipotesis<T> : BaseHipotesis where T : ObjectBase
     {
-        public bool Answer { get; set; }
-        public string Question { get; set; }
+       
         public T Verdadero { get; set; }
         public T Falso { get; set; }
-        public static Hipotesis<T> New(string descripcion) => new Hipotesis<T>(descripcion);
-        public Hipotesis(string question)
+        public new static Hipotesis<T> New(string descripcion) => new Hipotesis<T>(descripcion);
+        public Hipotesis(string question) : base(question)
         {
-            Question = question;
         }
 
         public Hipotesis<T> Set(T verdadero, T falso)
@@ -32,9 +38,12 @@ namespace ChainingEngine.Models.Adelante
             return this;
         }
 
-        public override void Ask()
+        public override void Ask(MainView main)
         {
-            throw new NotImplementedException();
+            var view = new QuestionView();
+            var model = new QuestionViewModel(main, this);
+            view.DataContext = model;
+            main.Content = view;
         }
     }
 }

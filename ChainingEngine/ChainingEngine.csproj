@@ -7,7 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ViewModels\" />
+    <PackageReference Include="AsyncAwaitBestPractices" Version="6.0.2" />
+    <PackageReference Include="HandyControl" Version="3.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Kit\Kit.WPF\Kit.WPF.csproj" />
+    <ProjectReference Include="..\..\..\Kit\Kit\Kit.csproj" />
   </ItemGroup>
 
 </Project>

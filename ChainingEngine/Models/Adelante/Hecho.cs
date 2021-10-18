@@ -1,4 +1,6 @@
-﻿namespace ChainingEngine.Models.Adelante
+﻿using ChainingEngine.Views;
+
+namespace ChainingEngine.Models.Adelante
 {
    public class Hecho : ObjectBase
     {
@@ -17,5 +19,7 @@
             Hipotesis = hipotesis;
             return this;
         }
+
+        public virtual void Run(MainView window) => Hipotesis.Ask(window);
     }
 }

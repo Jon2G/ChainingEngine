@@ -1,0 +1,39 @@
+﻿<ContentControl x:Class="ChainingEngine.Views.QuestionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ChainingEngine.Views"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:viewModels="clr-namespace:ChainingEngine.ViewModels"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance d:Type={x:Type viewModels:QuestionViewModel},IsDesignTimeCreatable=False}"
+             >
+    <hc:SimplePanel>
+        <hc:TransitioningContentControl TransitionMode="Bottom2Top">
+            <StackPanel Margin="25" VerticalAlignment="Center">
+                <hc:SimplePanel  VerticalAlignment="Center" >
+
+                    <StackPanel>
+                        <TextBlock TextWrapping="Wrap" TextAlignment="Center"
+                                   Text="{Binding  Question.Question}"  FontSize="30" 
+                                   FontWeight="Bold" Foreground="Black"/>
+                    </StackPanel>
+
+                </hc:SimplePanel>
+                <hc:ButtonGroup>
+                    <Button Margin="25" MaxWidth="200" Padding="20" Height="100"
+                            Content="SI" FontWeight="Bold" FontSize="20" HorizontalAlignment="Stretch"
+                            Style="{StaticResource ButtonSuccess}" 
+                            Command="{Binding AnswerCommand}" CommandParameter="{StaticResource TrueValue}" >
+                    </Button>
+                    <Button Margin="25" MaxWidth="200" Padding="20" Height="100"
+                            Content="NO" FontWeight="Bold" FontSize="20" HorizontalAlignment="Stretch"
+                            Style="{StaticResource ButtonSuccess}" 
+                            Command="{Binding AnswerCommand}" CommandParameter="{StaticResource FalseValue}" >
+                    </Button>
+                </hc:ButtonGroup>
+            </StackPanel>
+        </hc:TransitioningContentControl>
+    </hc:SimplePanel>
+</ContentControl>
