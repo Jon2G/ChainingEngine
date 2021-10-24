@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ChainingEngine.Interfaces;
 using ChainingEngine.ViewModels;
 using ChainingEngine.Views;
+using Kit.Sql.Interfaces;
 
 namespace ChainingEngine.Models.Adelante
 {
@@ -21,7 +22,7 @@ namespace ChainingEngine.Models.Adelante
         public static BaseHipotesis New(string descripcion) => new BaseHipotesis(descripcion);
         public virtual void Ask(MainView main){}
     }
-    public class Hipotesis<T> : BaseHipotesis where T : ObjectBase
+    public class Hipotesis<T> : BaseHipotesis where T : IGuid
     {
        
         public T Verdadero { get; set; }

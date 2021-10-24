@@ -1,9 +1,15 @@
-﻿using ChainingEngine.Views;
+﻿using System;
+using ChainingEngine.Interfaces;
+using ChainingEngine.Views;
+using Kit.Sql.Attributes;
+using Kit.Sql.Interfaces;
 
 namespace ChainingEngine.Models.Adelante
 {
-   public class Hecho : ObjectBase
+    public class Hecho : IGuid
     {
+        [PrimaryKey]
+        public Guid Guid { get; set; }
         public string Descripcion { get; set; }
         public BaseHipotesis Hipotesis { get; set; }
 
@@ -12,6 +18,10 @@ namespace ChainingEngine.Models.Adelante
             this.Descripcion = descripcion;
         }
 
+        public Hecho()
+        {
+            
+        }
         public static Hecho New(string descripcion) => new Hecho(descripcion);
 
         public Hecho SetHipotesis(BaseHipotesis hipotesis)
@@ -21,5 +31,6 @@ namespace ChainingEngine.Models.Adelante
         }
 
         public virtual void Run(MainView window) => Hipotesis.Ask(window);
+
     }
 }

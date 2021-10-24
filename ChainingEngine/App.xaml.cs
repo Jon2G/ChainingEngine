@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,6 +15,8 @@ using HandyControl.Data;
 using HandyControl.Themes;
 using HandyControl.Tools;
 using Kit;
+using Kit.Sql.Sqlite;
+using Kit.WPF.Dialogs.ICustomMessageBox;
 using Prism.Ioc;
 
 namespace ChainingEngine
@@ -23,6 +26,22 @@ namespace ChainingEngine
     /// </summary>
     public partial class App
     {
+        public static readonly SQLiteConnection SqLite;
+
+        static App()
+        {
+            Kit.WPF.Tools.Init();
+            FileInfo dbFileInfo = new FileInfo($"{Tools.Instance.LibraryPath}\\ChangingEngine.db");
+            SqLite = new SQLiteConnection(dbFileInfo, 100);
+            SqLite.CheckTables(new[]
+            {
+                typeof(HaciaAtras),
+                typeof(Hipotesis),
+                typeof(Comportamiento),
+                typeof(Conclusion),
+                typeof(Evidencia),
+            });
+        }
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);

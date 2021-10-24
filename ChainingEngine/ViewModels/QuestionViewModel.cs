@@ -28,12 +28,12 @@ namespace ChainingEngine.ViewModels
             switch (hipotesis)
             {
                 case Hipotesis<HechoInferido> inferido:
-                    if (answer)
+                    if (answer) //PREGUNTA
                     {
-                        inferido.Verdadero.Run(window);
+                        inferido.Verdadero.Run(window); //HECHO VERDADERO
                         break;
                     }
-                    inferido.Falso.Run(window);
+                    inferido.Falso.Run(window);//HECHO FALSO
                     break;
                 case Hipotesis<Conclusion> conclusion:
                     if (answer)

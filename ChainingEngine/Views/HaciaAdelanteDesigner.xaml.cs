@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -17,18 +15,17 @@ using ChainingEngine.ViewModels;
 namespace ChainingEngine.Views
 {
     /// <summary>
-    /// Interaction logic for PrincipalPage.xaml
+    /// Interaction logic for HaciaAdelanteDesigner.xaml
     /// </summary>
-    public partial class PrincipalPage
+    public partial class HaciaAdelanteDesigner : UserControl
     {
-        private readonly MainView MainView;
-        public PrincipalPageViewModel Model { get; }
-        public PrincipalPage(MainView mainView)
+        public HaciaAdelanteDesignerViewModel Model { get; }
+        public HaciaAdelanteDesigner()
         {
-            InitializeComponent();
-            this.MainView = mainView;
-            this.Model= new PrincipalPageViewModel(mainView);
+            this.Model = new HaciaAdelanteDesignerViewModel();
             this.DataContext = this.Model;
+            InitializeComponent();
+            
         }
     }
 }

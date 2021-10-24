@@ -1,34 +1,51 @@
 ﻿using System;
 using ChainingEngine.Views;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using ChainingEngine.Interfaces;
 using ChainingEngine.Models.Adelante;
 using ChainingEngine.ViewModels;
 using Kit;
+using Kit.Sql.Attributes;
+using Kit.Sql.Interfaces;
+using Newtonsoft.Json;
 
 namespace ChainingEngine.Models.Atras
 {
-    public class Hipotesis : Queue<Evidencia>
+    [Serializable]
+    public class Hipotesis : IGuid
     {
+        [Ignore]
+        public ObservableCollection<Evidencia> Evidencias { get; }
+        [Ignore]
+        public string Title => Question;
         public string Question { get; set; }
-        public List<Comportamiento> Comportamientos { get; }
+        [Ignore]
+        public List<Comportamiento> Comportamientos { get; set; }
+        [PrimaryKey]
+        public Guid Guid { get; set; }
+
+        public Hipotesis()
+        {
+            Comportamientos = new List<Comportamiento>();
+            Evidencias = new ObservableCollection<Evidencia>();
+        }
         public Hipotesis(string question, params Evidencia[] evidencias)
         {
             this.Comportamientos = new List<Comportamiento>();
             Question = question;
-            foreach (Evidencia evidencia in evidencias.Shuffle(new Random()))
-            {
-                this.Enqueue(evidencia);
-            }
+            Evidencias = new ObservableCollection<Evidencia>(evidencias.Shuffle(new Random()));
         }
 
         public static Hipotesis New(string question, params Evidencia[] evidencias) => new Hipotesis(question, evidencias);
 
         public async void Run(MainView window)
         {
-            while (this.Any())
+            while (Evidencias.Any())
             {
-                var evidencia = this.Dequeue();
+                var evidencia = this.Evidencias.First();
+                Evidencias.Remove(evidencia);
                 Comportamiento comportamiento = await evidencia.Run(window);
                 this.Comportamientos.Add(comportamiento);
             }
@@ -49,6 +66,34 @@ namespace ChainingEngine.Models.Atras
             var model = new ConclusionViewModel(window, conclusion);
             view.DataContext = model;
             window.Content = view;
+        }
+
+        public void Delete()
+        {
+            foreach (Evidencia evidencia in Evidencias)
+            {
+                evidencia.Delete();
+            }
+            App.SqLite.Delete(this);
+        }
+        public void Save()
+        {
+            Guid = Guid.NewGuid();
+            App.SqLite.InsertOrReplace(this);
+            foreach (Evidencia evidencia in Evidencias)
+            {
+                evidencia.Save(Guid);
+            }
+        }
+
+        public void Load()
+        {
+            IEnumerable<Evidencia> evidencias = App.SqLite.Table<Evidencia>().Where(x => x.HipotesisGuid == this.Guid).ToArray();
+            for (int i = 0; i < evidencias.Count(); i++)
+            {
+                evidencias.ElementAt(i).Load();
+            }
+            this.Evidencias.AddRange(evidencias);
         }
     }
 }

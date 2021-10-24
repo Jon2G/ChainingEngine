@@ -22,7 +22,7 @@
 
                 </hc:SimplePanel>
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" Margin="10">
-                    <ItemsControl ItemsSource="{Binding Evidencia }" 
+                    <ItemsControl ItemsSource="{Binding Evidencia.Comportamientos }" 
                                   HorizontalAlignment="Center" HorizontalContentAlignment="Stretch">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>

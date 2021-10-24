@@ -8,7 +8,7 @@
                xmlns:hc="https://handyorg.github.io/handycontrol"
                mc:Ignorable="d"
                ShowTitle="True" WindowStartupLocation="CenterScreen"
-               Title="Motor de inferencia" Height="450" Width="800">
+               Title="Motor de inferencia" MinHeight="400" Width="1000" MinWidth="1000">
     <hc:BlurWindow.NonClientAreaContent>
         <StackPanel Height="29">
             <Grid>
@@ -34,11 +34,6 @@
           
             </Grid>
         </StackPanel>
-        <!--<Grid Margin="0" Height="29">
-            <Button HorizontalAlignment="Right" Click="ButtonConfig_OnClick" Content="Tema" Name="ButtonConfig" 
-                    Style="{StaticResource ButtonIcon}" Foreground="{DynamicResource PrimaryTextBrush}"  />
-       
-        </Grid>-->
     </hc:BlurWindow.NonClientAreaContent>
     <Window.Background>
         <SolidColorBrush Opacity="0.5" Color="White"/>

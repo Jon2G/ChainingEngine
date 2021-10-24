@@ -6,45 +6,226 @@
                 xmlns:local="clr-namespace:ChainingEngine.Views"
                 xmlns:hc="https://handyorg.github.io/handycontrol"
                 xmlns:viewModels="clr-namespace:ChainingEngine.ViewModels"
+                xmlns:models="clr-namespace:ChainingEngine.Models"
+                xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+                xmlns:interfaces="clr-namespace:ChainingEngine.Interfaces"
+                x:Name="ppage"
                 mc:Ignorable="d" 
                 d:DataContext="{d:DesignInstance d:Type={x:Type viewModels:PrincipalPageViewModel},IsDesignTimeCreatable=False}">
+    <b:Interaction.Triggers>
+        <b:EventTrigger EventName="MouseDoubleClick">
+            <b:InvokeCommandAction 
+                Command="{Binding PageClickCommand}"/>
+        </b:EventTrigger>
+    </b:Interaction.Triggers>
     <DockPanel>
-     
-        <hc:TransitioningContentControl TransitionMode="Left2Right" DockPanel.Dock="Bottom" Margin="20">
-            <StackPanel>
-                <TextBlock Text="García García Jonathan Eduardo" FontSize="16"/>
-                <TextBlock Text="González Santiesteban Santiago" FontSize="16"/>
-                <TextBlock Text="Jiménez Angeles Daniel Antonio" FontSize="16"/>
-            </StackPanel>
-        </hc:TransitioningContentControl>
-        <hc:SimplePanel DockPanel.Dock="Top">
+        <hc:SimplePanel DockPanel.Dock="Top" Margin="10">
             <hc:TransitioningContentControl TransitionMode="Bottom2Top">
-                <StackPanel Margin="25" VerticalAlignment="Center">
-                    <hc:SimplePanel  VerticalAlignment="Center" >
+                <DockPanel Margin="20,0" VerticalAlignment="Stretch">
 
-                        <StackPanel>
-                            <TextBlock TextWrapping="Wrap" TextAlignment="Center"
-                                       Text="MOTOR DE INFERENCIA"  FontSize="50" 
-                                       FontWeight="Bold" Foreground="Black"/>
-                        </StackPanel>
+                    <hc:SimplePanel DockPanel.Dock="Top" Margin="0,10">
+                        <TextBlock TextWrapping="Wrap" TextAlignment="Center"
+                                   Text="MOTOR DE INFERENCIA"  FontSize="30" 
+                                   FontWeight="Bold" Foreground="Black"/>
 
                     </hc:SimplePanel>
-                    <hc:ButtonGroup>
-                        <Button Margin="25" MaxWidth="300" Padding="20" Height="100"
-                                FontWeight="Bold" FontSize="15" HorizontalAlignment="Stretch"
-                                Background="{StaticResource InfoBrush}"
-                                Command="{Binding AdelanteCommand}" >
-                            <TextBlock Text="Encadenamiento hacia adelante" Foreground="{StaticResource TextIconBrush}"/>
-                        </Button>
-                        <Button Margin="25" MaxWidth="300" Padding="20" Height="100"
-                                FontWeight="Bold" FontSize="15" HorizontalAlignment="Stretch"
-                                Style="{DynamicResource ButtonSuccess}" 
-                                Background="{StaticResource InfoBrush}"
-                                Command="{Binding AtrasCommand}" >
-                            <TextBlock Text="Encadenamiento hacia atrás" Foreground="{StaticResource TextIconBrush}"/>
-                        </Button>
-                    </hc:ButtonGroup>
-                </StackPanel>
+
+                    <Grid Margin="0" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" MaxWidth="300"  MinWidth="300"/>
+                            <ColumnDefinition Width="*"  MinWidth="300"/>
+                            <ColumnDefinition Width="Auto"  MaxWidth="300"  MinWidth="300"/>
+                        </Grid.ColumnDefinitions>
+
+                        <DockPanel Grid.Column="0">
+                            <hc:TransitioningContentControl DockPanel.Dock="Top" TransitionMode="Right2Left">
+                                <TextBlock Text="Hacia adelante" FontSize="20" 
+                                           FontWeight="Bold" Foreground="Black"/>
+                            </hc:TransitioningContentControl>
+                            <hc:TransitioningContentControl TransitionMode="Right2Left" >
+                                <ScrollViewer
+                                          VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled">
+                                    <ItemsControl ScrollViewer.CanContentScroll="True" 
+                                              ItemsSource="{Binding Encadenamientos}" 
+                                              ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                                              ScrollViewer.VerticalScrollBarVisibility="Visible">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel HorizontalAlignment="Stretch"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate DataType="{x:Type interfaces:IEncadenamiento}">
+                                                <Border Margin="10" 
+                                                        CornerRadius="5" HorizontalAlignment="Stretch"
+                                                        Background="{StaticResource SecondaryBorderBrush}">
+                                                    <b:Interaction.Triggers>
+                                                        <b:EventTrigger EventName="MouseLeftButtonUp">
+                                                            <b:InvokeCommandAction 
+                                                                Command="{Binding Model.EncadenamientoCommand,ElementName=ppage}"
+                                                                CommandParameter="{Binding .}" />
+                                                        </b:EventTrigger>
+                                                    </b:Interaction.Triggers>
+                                                    <TextBlock TextWrapping="Wrap" 
+                                                               Text="{Binding  Title}" 
+                                                               Foreground="{StaticResource TextIconBrush}"
+                                                               Margin="20" FontWeight="Bold" FontSize="20"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </hc:TransitioningContentControl>
+                        </DockPanel>
+
+                        <Grid Margin="20" Grid.Column="1">
+                            <hc:TransitioningContentControl TransitionMode="Bottom2Top"
+                                                            Visibility="{Binding IsItemSelected,Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <DockPanel>
+
+
+                                    <StackPanel DockPanel.Dock="Top">
+                                        <TextBlock Margin="5" Text="{Binding Selected.Title}"  FontSize="30" 
+                                           FontWeight="Bold" Foreground="Black" TextWrapping="Wrap"/>
+
+                                        <TextBlock Margin="5" Text="{Binding Selected.Type,StringFormat='Tipo: {0}'}"  FontSize="30" 
+                                           FontWeight="Bold" Foreground="Black"/>
+                                    </StackPanel>
+
+
+                                    <hc:TransitioningContentControl TransitionMode="Top2Bottom"  VerticalAlignment="Center">
+                                        <hc:ButtonGroup Orientation="Vertical" Padding="5">
+                                            <Button Margin="5" Height="50" Padding="10" 
+                                            Background="{StaticResource SuccessBrush}"
+                                            Foreground="{StaticResource TextIconBrush}" 
+                                            Command="{Binding StartCommand}"
+                                            CommandParameter="{Binding Selected}"
+                                            Style="{StaticResource ButtonSuccess}" HorizontalContentAlignment="Center" 
+                                            HorizontalAlignment="Stretch">
+                                                <TextBlock Text="Iniciar" FontSize="18" FontWeight="Bold"/>
+                                            </Button>
+                                            <Button Margin="5" Height="50" Padding="10" Style="{StaticResource ButtonPrimary}" HorizontalContentAlignment="Center" 
+                                            HorizontalAlignment="Stretch"
+                                            Background="{StaticResource PrimaryBrush}"
+                                            Foreground="{StaticResource TextIconBrush}">
+                                                <TextBlock Text="Editar" FontSize="18" FontWeight="Bold"/>
+                                            </Button>
+                                        </hc:ButtonGroup>
+                                    </hc:TransitioningContentControl>
+
+
+
+
+                                </DockPanel>
+                            </hc:TransitioningContentControl>
+
+                            <hc:TransitioningContentControl TransitionMode="Bottom2Top"
+                                                            Visibility="{Binding IsItemSelected,Converter={StaticResource ReverseBooleanToVisibilityConverter}}">
+                                <DockPanel>
+
+
+                                    <StackPanel DockPanel.Dock="Top">
+                                        <TextBlock Margin="5" Text="Seleccione un encademaniento ó defina las reglas para un nuevo encadenamiento"  
+                                                   FontSize="25" 
+                                           FontWeight="Bold" Foreground="Black" TextWrapping="Wrap"/>
+                                    </StackPanel>
+
+
+                                    <hc:TransitioningContentControl TransitionMode="Top2Bottom"  VerticalAlignment="Center">
+                                        <hc:SimpleStackPanel Orientation="Vertical" Margin="5">
+                                            <Border Margin="5" Height="70" Padding="10" 
+                                            Background="{StaticResource SuccessBrush}"  
+                                            HorizontalAlignment="Stretch">
+                                                <b:Interaction.Triggers>
+                                                    <b:EventTrigger EventName="MouseLeftButtonUp">
+                                                        <b:InvokeCommandAction 
+                                                            Command="{Binding HaciaAtrasCommand}"
+                                                            CommandParameter="{Binding .}" />
+                                                    </b:EventTrigger>
+                                                </b:Interaction.Triggers>
+                                                <TextBlock Text="Nuevo encadenamiento hacia atras"  Foreground="{StaticResource TextIconBrush}"
+                                                           TextWrapping="Wrap" FontSize="18" FontWeight="Bold"/>
+                                            </Border>
+                                            <Border Margin="5" Height="70" Padding="10" 
+                                            HorizontalAlignment="Stretch"
+                                            Background="{StaticResource PrimaryBrush}">
+                                                <b:Interaction.Triggers>
+                                                    <b:EventTrigger EventName="MouseLeftButtonUp">
+                                                        <b:InvokeCommandAction 
+                                                            Command="{Binding HaciaAdelanteCommand}"
+                                                            CommandParameter="{Binding .}" />
+                                                    </b:EventTrigger>
+                                                </b:Interaction.Triggers>
+                                                <TextBlock Text="Nuevo encadenamiento hacia adelante" FontSize="18" 
+                                                           TextWrapping="Wrap" FontWeight="Bold"  Foreground="{StaticResource TextIconBrush}"/>
+                                            </Border>
+                                        </hc:SimpleStackPanel>
+                                    </hc:TransitioningContentControl>
+
+
+
+
+                                </DockPanel>
+                            </hc:TransitioningContentControl>
+                        </Grid>
+
+                        <DockPanel Grid.Column="2">
+                            <hc:TransitioningContentControl DockPanel.Dock="Top" TransitionMode="Right2Left">
+                                <TextBlock Text="Hacia adelante" FontSize="20" 
+                                           FontWeight="Bold" Foreground="Black"/>
+                            </hc:TransitioningContentControl>
+                            <hc:TransitioningContentControl TransitionMode="Right2Left" >
+                                <ScrollViewer 
+                                          VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled">
+                                    <ItemsControl ScrollViewer.CanContentScroll="True" 
+                                              ItemsSource="{Binding Encadenamientos}" 
+                                              ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                                              ScrollViewer.VerticalScrollBarVisibility="Visible">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel HorizontalAlignment="Stretch"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate DataType="{x:Type interfaces:IEncadenamiento}">
+                                                <Border Margin="10" 
+                                                        CornerRadius="5" HorizontalAlignment="Stretch"
+                                                        Background="{StaticResource SecondaryBorderBrush}">
+                                                    <b:Interaction.Triggers>
+                                                        <b:EventTrigger EventName="MouseLeftButtonUp">
+                                                            <b:InvokeCommandAction 
+                                                                Command="{Binding Model.EncadenamientoCommand,ElementName=ppage}"
+                                                                CommandParameter="{Binding .}" />
+                                                        </b:EventTrigger>
+                                                    </b:Interaction.Triggers>
+                                                    <TextBlock TextWrapping="Wrap" 
+                                                               Text="{Binding  Title}" 
+                                                               Foreground="{StaticResource TextIconBrush}"
+                                                               Margin="20" FontWeight="Bold" FontSize="20"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </hc:TransitioningContentControl>
+                        </DockPanel>
+
+                    </Grid>
+
+
+
+
+
+
+                    <!--<hc:TransitioningContentControl TransitionMode="Left2Right" VerticalAlignment="Bottom"
+                                                    Margin="20" DockPanel.Dock="Bottom">
+                        <StackPanel  Background="Aqua">
+                            <TextBlock Text="García García Jonathan Eduardo" FontSize="16"/>
+                            <TextBlock Text="González Santiesteban Santiago" FontSize="16"/>
+                            <TextBlock Text="Jiménez Angeles Daniel Antonio" FontSize="16"/>
+                        </StackPanel>
+                    </hc:TransitioningContentControl>-->
+                </DockPanel>
             </hc:TransitioningContentControl>
         </hc:SimplePanel>
     </DockPanel>
