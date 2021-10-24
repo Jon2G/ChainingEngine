@@ -118,6 +118,8 @@ namespace ChainingEngine.ViewModels
 
         private void HaciaAdelante()
         {
+            MainView.Content = new HaciaAdelanteDesigner();
+            return;
             Engine.Run(MainView, Hecho.New("Es una CocaCola")
                 .SetHipotesis(Hipotesis<HechoInferido>.New("Es color marrón")
                     .Set(
