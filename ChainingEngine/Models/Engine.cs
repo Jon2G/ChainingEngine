@@ -19,18 +19,18 @@ namespace ChainingEngine.Models
             switch (encadenamiento)
             {
                 case HaciaAtras atras:
-                    Run(mainView,atras.Hipotesis);
+                    Run(mainView, atras.Hipotesis);
                     return;
                 case HaciaAdelante adelante:
-                    //Run(adelante);
+                    Run(mainView, adelante.Hecho);
                     return;
             }
         }
-        public static void Run(MainView mainView, Hipotesis hipotesis)
+        public static void Run(MainView mainView, Atras.Hipotesis hipotesis)
         {
             mainView.Content = new StartupView(new StartupViewModel(mainView, hipotesis));
         }
-        public static void Run(MainView mainView, Hecho hecho)
+        public static void Run(MainView mainView, Adelante.Hecho hecho)
         {
             mainView.Content = new StartupView(new StartupViewModel(mainView, hecho));
         }

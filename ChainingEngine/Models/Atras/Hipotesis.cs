@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 
 namespace ChainingEngine.Models.Atras
 {
-    [Serializable]
+    [Table("HipotesisHaciaAtras")]
     public class Hipotesis : IGuid
     {
         [Ignore]

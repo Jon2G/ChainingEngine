@@ -16,37 +16,21 @@ namespace ChainingEngine.ViewModels
     {
         public IQuestion Question { get; }
         public ICommand AnswerCommand { get; set; }
-        public QuestionViewModel(MainView window, BaseHipotesis question)
+        public QuestionViewModel(MainView window, ChainingEngine.Models.Adelante.Hipotesis question)
         {
             this.Question = question;
             this.AnswerCommand = new Command<bool>((b) => Answer(b, window, question));
         }
 
-        private void Answer(bool answer, MainView window, BaseHipotesis hipotesis)
+        private void Answer(bool answer, MainView window, ChainingEngine.Models.Adelante.Hipotesis hipotesis)
         {
             this.Question.Answer = answer;
-            switch (hipotesis)
+            if (answer)
             {
-                case Hipotesis<HechoInferido> inferido:
-                    if (answer) //PREGUNTA
-                    {
-                        inferido.Verdadero.Run(window); //HECHO VERDADERO
-                        break;
-                    }
-                    inferido.Falso.Run(window);//HECHO FALSO
-                    break;
-                case Hipotesis<Conclusion> conclusion:
-                    if (answer)
-                    {
-                        conclusion.Verdadero.Run(window);
-                        break;
-                    }
-
-                    conclusion.Falso.Run(window);
-                    break;
-
+                hipotesis.Verdadero.Run(window);
+                return;
             }
-
+            hipotesis.Falso.Run(window);
         }
     }
 }

@@ -79,56 +79,40 @@ namespace ChainingEngine.ViewModels
             {
                 conclusiones[i] = new Conclusion(this.Conclusiones[i]);
             }
-
-            BaseHipotesis[] hipotesis = new BaseHipotesis[Hechos.Count];
-            for (int i = 0; i < Hechos.Count; i++)
-            {
-                var hecho = Hechos[i];
-                var inferido = new Hipotesis<HechoInferido>(hecho.Descripcion);
-                BuildHechos(inferido, hecho, conclusiones);
-            }
-
-
-
-
-            //Hecho hecho = new Hecho(Cuestionamiento);
-
-
-
-
-            //Hecho.New("Es una CocaCola")
-            //      .SetHipotesis(Hipotesis<HechoInferido>.New("Es color marrón")
-            //          .Set(
-            //              verdadero: (HechoInferido)HechoInferido.New("Es color marrón").SetHipotesis(Hipotesis<Conclusion>.New("La etiqueta es roja").Set(Conclusion.New("Cumple con los estándares"), Conclusion.New("No cumple con los estándares"))),
-            //              falso: HechoInferido.New("No es color marrón").SetConclusion(Conclusion.New("No es CocaCola"))));
+            HechoModel hecho = Hechos.First();
+            Hipotesis inferido = new Hipotesis(hecho.Descripcion);
+            BuildHechos(inferido, hecho, conclusiones);
+            new HaciaAdelante(new Hecho(Cuestionamiento).SetHipotesis(inferido)).Save();
         }
 
-        private void BuildHechos(BaseHipotesis hipotesis, HechoModel hecho, Conclusion[] conclusiones)
+        private void BuildHechos(Hipotesis hipotesis, HechoModel hecho, Conclusion[] conclusiones)
         {
             Conclusion conclusion;
             HechoModel nhecho;
-            if (this.Conclusiones.IndexOf(hecho.Si) is int cindex && cindex > 0)
+            if (this.Conclusiones.IndexOf(hecho.Si) is int cindex && cindex >= 0)
             {
                 conclusion = conclusiones[cindex];
-                
+                hipotesis.Verdadero = conclusion;
             }
             else
             {
                 nhecho = Hechos.First(x => x.Descripcion == hecho.Si);
-
-
-
+                Hipotesis siHipotesis = new Hipotesis(nhecho.Descripcion);
+                hipotesis.Verdadero = siHipotesis;
+                BuildHechos(siHipotesis, nhecho, conclusiones);
             }
 
-            if (this.Conclusiones.IndexOf(hecho.No) is int nindex && nindex > 0)
+            if (this.Conclusiones.IndexOf(hecho.No) is int nindex && nindex >= 0)
             {
                 conclusion = conclusiones[nindex];
-
+                hipotesis.Falso = conclusion;
             }
             else
             {
                 nhecho = Hechos.First(x => x.Descripcion == hecho.No);
-
+                Hipotesis siHipotesis = new Hipotesis(nhecho.Descripcion);
+                hipotesis.Falso = siHipotesis;
+                BuildHechos(siHipotesis, nhecho, conclusiones);
             }
         }
     }

@@ -12,12 +12,13 @@ using Kit.Sql.Interfaces;
 namespace ChainingEngine.Models.Adelante
 {
     [Serializable]
-    public class Conclusion : IGuid, IComparable<Conclusion>, IEquatable<Conclusion>
+    public class Conclusion : IGuid, IComparable<Conclusion>, IEquatable<Conclusion>, IBranch
     {
         public string Descripcion { get; set; }
         [PrimaryKey]
         public Guid Guid { get; set; }
-
+        public bool Side { get; set; }
+        public Guid ParentId { get; set; }
         public Conclusion()
         {
 
@@ -43,6 +44,18 @@ namespace ChainingEngine.Models.Adelante
         public void Save()
         {
             App.SqLite.InsertOrReplace(this);
+        }
+
+        public void Save(Guid Guid, bool answer)
+        {
+            ParentId = Guid;
+            Side = answer;
+            Save();
+        }
+
+        public void Load()
+        {
+            //nada que cargar :)
         }
 
         public bool Equals(Conclusion other)

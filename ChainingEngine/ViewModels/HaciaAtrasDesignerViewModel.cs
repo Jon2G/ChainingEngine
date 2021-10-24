@@ -65,7 +65,7 @@ namespace ChainingEngine.ViewModels
                 Evidencia evidencia = new Evidencia(row.Evidencia, comportamientos);
                 evidencias[index] = evidencia;
             }
-            Hipotesis hipotesis = new Hipotesis(Hipotesis, evidencias);
+            Models.Atras.Hipotesis hipotesis = new Models.Atras.Hipotesis(Hipotesis, evidencias);
             HaciaAtras haciaAtras = new HaciaAtras(hipotesis);
             haciaAtras.Save();
         }

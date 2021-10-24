@@ -17,7 +17,7 @@ namespace ChainingEngine.ViewModels
         public string Hipotesis { get; }
         public ICommand IniciarCommand { get; }
 
-        public StartupViewModel(MainView window, Hipotesis hipotesis)
+        public StartupViewModel(MainView window,ChainingEngine.Models.Atras.Hipotesis hipotesis)
         {
             this.Hipotesis = hipotesis.Question;
             this.IniciarCommand = new Command(() => Iniciar(window, hipotesis));
@@ -29,7 +29,7 @@ namespace ChainingEngine.ViewModels
             this.IniciarCommand = new Command(() =>Iniciar(window, hecho));
         }
 
-        private void Iniciar(MainView window, Hipotesis hipotesis)
+        private void Iniciar(MainView window, ChainingEngine.Models.Atras.Hipotesis hipotesis)
         {
             hipotesis.Run(window);
 

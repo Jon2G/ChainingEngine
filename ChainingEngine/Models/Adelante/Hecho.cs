@@ -10,8 +10,10 @@ namespace ChainingEngine.Models.Adelante
     {
         [PrimaryKey]
         public Guid Guid { get; set; }
+        public Guid AdelanteGuid { get; set; }
         public string Descripcion { get; set; }
-        public BaseHipotesis Hipotesis { get; set; }
+        [Ignore]
+        public Hipotesis Hipotesis { get; set; }
 
         public Hecho(string descripcion)
         {
@@ -20,11 +22,11 @@ namespace ChainingEngine.Models.Adelante
 
         public Hecho()
         {
-            
+
         }
         public static Hecho New(string descripcion) => new Hecho(descripcion);
 
-        public Hecho SetHipotesis(BaseHipotesis hipotesis)
+        public Hecho SetHipotesis(Hipotesis hipotesis)
         {
             Hipotesis = hipotesis;
             return this;
@@ -32,5 +34,19 @@ namespace ChainingEngine.Models.Adelante
 
         public virtual void Run(MainView window) => Hipotesis.Ask(window);
 
+        public void Save(Guid AdelanteGuid)
+        {
+            this.AdelanteGuid = AdelanteGuid;
+            App.SqLite.InsertOrReplace(this);
+            Hipotesis.Save(this.Guid, false);
+        }
+
+        public void Load()
+        {
+            Hipotesis hipotesis = App.SqLite.Table<Hipotesis>().
+                First(x => x.ParentId == this.Guid);
+            hipotesis.Load();
+            this.Hipotesis = hipotesis;
+        }
     }
 }

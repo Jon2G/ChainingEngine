@@ -36,7 +36,10 @@ namespace ChainingEngine
             SqLite.CheckTables(new[]
             {
                 typeof(HaciaAtras),
-                typeof(Hipotesis),
+                typeof(HaciaAdelante),
+                typeof(Models.Atras.Hipotesis),
+                typeof(Models.Adelante.Hipotesis),
+                typeof(Hecho),
                 typeof(Comportamiento),
                 typeof(Conclusion),
                 typeof(Evidencia),
