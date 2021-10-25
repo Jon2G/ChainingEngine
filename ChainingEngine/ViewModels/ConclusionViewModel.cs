@@ -21,9 +21,6 @@ namespace ChainingEngine.ViewModels
             this.EndCommand = new Command(()=>End(window));
         }
 
-        private void End(MainView window)
-        {
-            window.Restart();
-        }
+        private void End(MainView window)=> window.Restart();
     }
 }

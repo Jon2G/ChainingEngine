@@ -8,4 +8,3 @@ Motor de encadenamientos
 ## Hacia atrás
 ![Screenshot 2021-10-25 014831](https://user-images.githubusercontent.com/24820069/138647590-8caa564b-02e5-4d1a-af74-0afd74c7b0c7.jpg)
 
-
