@@ -17,7 +17,7 @@ namespace ChainingEngine.Models.Atras
     public class Hipotesis : IGuid
     {
         [Ignore]
-        public ObservableCollection<Evidencia> Evidencias { get; }
+        public ObservableCollection<Evidencia> Evidencias { get; private set; }
         [Ignore]
         public string Title => Question;
         public string Question { get; set; }
@@ -35,13 +35,14 @@ namespace ChainingEngine.Models.Atras
         {
             this.Comportamientos = new List<Comportamiento>();
             Question = question;
-            Evidencias = new ObservableCollection<Evidencia>(evidencias.Shuffle(new Random()));
+            Evidencias = new ObservableCollection<Evidencia>(evidencias);
         }
 
         public static Hipotesis New(string question, params Evidencia[] evidencias) => new Hipotesis(question, evidencias);
 
         public async void Run(MainView window)
         {
+            Evidencias = new ObservableCollection<Evidencia>(Evidencias.Shuffle(new Random()));
             while (Evidencias.Any())
             {
                 var evidencia = this.Evidencias.First();
@@ -80,15 +81,17 @@ namespace ChainingEngine.Models.Atras
         {
             Guid = Guid.NewGuid();
             App.SqLite.InsertOrReplace(this);
-            foreach (Evidencia evidencia in Evidencias)
+            for (var i = 0; i < Evidencias.Count; i++)
             {
-                evidencia.Save(Guid);
+                Evidencia evidencia = Evidencias[i];
+                evidencia.Save(i + 1, Guid);
             }
         }
 
         public void Load()
         {
-            IEnumerable<Evidencia> evidencias = App.SqLite.Table<Evidencia>().Where(x => x.HipotesisGuid == this.Guid).ToArray();
+            IEnumerable<Evidencia> evidencias = App.SqLite.Table<Evidencia>()
+                .Where(x => x.HipotesisGuid == this.Guid).OrderBy(x => x.Id).ToArray();
             for (int i = 0; i < evidencias.Count(); i++)
             {
                 evidencias.ElementAt(i).Load();

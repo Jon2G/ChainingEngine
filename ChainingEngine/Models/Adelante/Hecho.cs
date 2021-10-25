@@ -34,6 +34,11 @@ namespace ChainingEngine.Models.Adelante
 
         public virtual void Run(MainView window) => Hipotesis.Ask(window);
 
+        public void Delete()
+        {
+            App.SqLite.Delete(this);
+            Hipotesis.Delete();
+        }
         public void Save(Guid AdelanteGuid)
         {
             this.AdelanteGuid = AdelanteGuid;

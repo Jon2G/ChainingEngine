@@ -31,7 +31,7 @@ namespace ChainingEngine.Models.Adelante
                 }
                 else
                 {
-                    Si = new StringObject();
+                    _Si = new StringObject();
                     Raise(() => Si);
                     Si.Value = string.Empty;
                 }

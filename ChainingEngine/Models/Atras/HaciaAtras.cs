@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using ChainingEngine.Interfaces;
 using Kit.Sql.Attributes;
@@ -79,6 +81,27 @@ namespace ChainingEngine.Models.Atras
         {
             Hipotesis = App.SqLite.Find<Hipotesis>(this.HipotesisGuid);
             Hipotesis.Load();
+        }
+
+        public void GetConclusiones(ObservableCollection<StringObject> conclusiones)
+        {
+            conclusiones.AddRange(Hipotesis.Evidencias.SelectMany(x => x.Comportamientos.Select(x => x.Conclusion))
+                .Distinct().Select(x => (StringObject)x.Descripcion));
+        }
+
+        public void GetEvidencias(ObservableCollection<HaciaAtrasRow> rows)
+        {
+            for (int j = 0; j < Hipotesis.Evidencias.Count; j++)
+            {
+                var evidencia = Hipotesis.Evidencias.ElementAt(j);
+
+                var row = new HaciaAtrasRow()
+                {
+                    Evidencia = evidencia.Descripcion,
+                    Hechos = new ObservableCollection<StringObject>(evidencia.Comportamientos.Select(x => (StringObject)x.Question).ToArray())
+                };
+                rows.Add(row);
+            }
         }
     }
 }

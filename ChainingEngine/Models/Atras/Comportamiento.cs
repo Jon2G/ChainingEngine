@@ -16,6 +16,7 @@ namespace ChainingEngine.Models.Atras
     {
         public Guid EvidenciaGuid { get; set; }
         public Guid ConclusionGuid { get; set; }
+        public int Id { get; set; }
         [PrimaryKey]
         public Guid Guid { get; set; }
         public string Question { get; set; }
@@ -47,8 +48,9 @@ namespace ChainingEngine.Models.Atras
             Conclusion.Delete();
             App.SqLite.Delete(this);
         }
-        internal void Save(Guid evidenciaGuid, Conclusion conclusion)
+        internal void Save(int Id,Guid evidenciaGuid, Conclusion conclusion)
         {
+            this.Id = Id;
             EvidenciaGuid = evidenciaGuid;
             ConclusionGuid = conclusion.Guid;
             App.SqLite.InsertOrReplace(this);

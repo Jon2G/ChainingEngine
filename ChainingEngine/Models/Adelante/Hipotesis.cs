@@ -18,6 +18,8 @@ namespace ChainingEngine.Models.Adelante
         public Guid Guid { get; set; }
         [Ignore]
         public bool Answer { get; set; }
+        [Ignore]
+        public string Descripcion => Question;
         public string Question { get; set; }
         [Ignore]
         public IBranch Verdadero { get; set; }
@@ -53,6 +55,12 @@ namespace ChainingEngine.Models.Adelante
             main.Content = view;
         }
 
+        public void Delete()
+        {
+            App.SqLite.Delete(this);
+            this.Verdadero.Delete();
+            this.Falso.Delete();
+        }
         public void Save() => Save(Guid.Empty, false);
 
         public void Save(Guid pGuid, bool answer)

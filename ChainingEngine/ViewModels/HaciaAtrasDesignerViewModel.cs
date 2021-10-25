@@ -12,6 +12,7 @@ using System.Xml;
 using ChainingEngine.Models;
 using ChainingEngine.Models.Adelante;
 using ChainingEngine.Models.Atras;
+using ChainingEngine.Views;
 using Kit;
 using Kit.Extensions;
 using Kit.Model;
@@ -28,23 +29,37 @@ namespace ChainingEngine.ViewModels
         public ICommand AddConclusionCommand { get; }
         public ICommand AddEvidenciaCommand { get; }
         public ICommand SaveCommand { get; }
-        public HaciaAtrasDesignerViewModel(HaciaAtras encadenamiento)
+        public ICommand CancelCommand { get; }
+        private readonly MainView MainView;
+        private readonly HaciaAtras HaciaAtras;
+        public HaciaAtrasDesignerViewModel(MainView mainView, HaciaAtras encadenamiento=null)
         {
+            this.HaciaAtras = encadenamiento;
+            this.MainView = mainView;
             this.AddConclusionCommand = new Command(AddConclusion);
             this.AddEvidenciaCommand = new Command(AddEvidencia);
             this.RemoveConclusionCommand = new Command(RemoveConclusion);
             this.RemoveEvidenciaCommand = new Command<HaciaAtrasRow>(RemoveEvidencia);
             this.SaveCommand = new Command(Save);
+            this.CancelCommand = new Command(Cancel);
             this.Rows = new ObservableCollection<HaciaAtrasRow>();
             this.Conclusiones = new ObservableCollection<StringObject>();
+            if (encadenamiento is not null)
+            {
+                this.Hipotesis = encadenamiento.Title;
+                encadenamiento.GetConclusiones(this.Conclusiones);
+                encadenamiento.GetEvidencias(this.Rows);
+            }
         }
-        public HaciaAtrasDesignerViewModel() : this(new HaciaAtras())
+
+        private void Cancel()
         {
-
+            this.MainView.Content = new PrincipalPage(this.MainView);
         }
-
         private void Save()
         {
+            HaciaAtras?.Delete();
+            
             Conclusion[] conclusiones = new Conclusion[Conclusiones.Count];
             for (int i = 0; i < Conclusiones.Count; i++)
             {
@@ -68,6 +83,7 @@ namespace ChainingEngine.ViewModels
             Models.Atras.Hipotesis hipotesis = new Models.Atras.Hipotesis(Hipotesis, evidencias);
             HaciaAtras haciaAtras = new HaciaAtras(hipotesis);
             haciaAtras.Save();
+            Cancel();
         }
         private void RemoveConclusion()
         {

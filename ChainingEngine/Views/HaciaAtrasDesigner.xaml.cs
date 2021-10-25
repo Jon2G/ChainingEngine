@@ -25,10 +25,10 @@ namespace ChainingEngine.Views
     public partial class HaciaAtrasDesigner : UserControl
     {
         public HaciaAtrasDesignerViewModel Model { get; }
-        public HaciaAtrasDesigner()
+        public HaciaAtrasDesigner(MainView mainView,HaciaAtras atras=null)
         {
             InitializeComponent();
-            this.Model = new HaciaAtrasDesignerViewModel();
+            this.Model = new HaciaAtrasDesignerViewModel(mainView,atras);
             this.DataContext = this.Model;
         }
 

@@ -19,14 +19,15 @@ namespace ChainingEngine.Models.Atras
     {
         public Guid HipotesisGuid { get; set; }
         [Ignore]
-        public ObservableCollection<Comportamiento> Comportamientos { get; }
+        public ObservableCollection<Comportamiento> Comportamientos { get; private set; }
+        public int Id { get; set; }
         [PrimaryKey]
         public Guid Guid { get; set; }
         public string Descripcion { get; set; }
         public Evidencia(string descripcion, params Comportamiento[] comportamientos)
         {
             this.Descripcion = descripcion;
-            this.Comportamientos = new ObservableCollection<Comportamiento>(comportamientos.Shuffle(new Random()));
+            this.Comportamientos = new ObservableCollection<Comportamiento>(comportamientos);
         }
 
         public Evidencia()
@@ -35,6 +36,7 @@ namespace ChainingEngine.Models.Atras
         }
         public async Task<Comportamiento> Run(MainView window)
         {
+            this.Comportamientos = new ObservableCollection<Comportamiento>(this.Comportamientos.Shuffle(new Random()));
             var view = new HipotesisView();
             var model = new HipotesisViewModel(this);
             view.DataContext = model;
@@ -50,8 +52,9 @@ namespace ChainingEngine.Models.Atras
             }
             App.SqLite.Delete(this);
         }
-        public void Save(Guid hipotesisGuid)
+        public void Save(int Id,Guid hipotesisGuid)
         {
+            this.Id = Id;
             HipotesisGuid = hipotesisGuid;
             App.SqLite.InsertOrReplace(this);
 
@@ -69,18 +72,23 @@ namespace ChainingEngine.Models.Atras
             for (var index = 0; index < Comportamientos.Count; index++)
             {
                 Comportamiento comportamiento = Comportamientos[index];
-                comportamiento.Save(Guid,conclusiones[index]);
+                comportamiento.Save(index+1,Guid, conclusiones[index]);
             }
         }
 
         public void Load()
         {
-            IEnumerable<Comportamiento> comportamientos = App.SqLite.Table<Comportamiento>().Where(x => x.EvidenciaGuid == this.Guid).ToArray();
+            IEnumerable<Comportamiento> comportamientos = 
+                App.SqLite.Table<Comportamiento>().Where(x => x.EvidenciaGuid == this.Guid)
+                    .OrderBy(x=>x.Id)
+                    .ToArray();
             for (int i = 0; i < comportamientos.Count(); i++)
             {
                 comportamientos.ElementAt(i).Load();
             }
             this.Comportamientos.AddRange(comportamientos);
         }
+
+        public override string ToString() => Descripcion;
     }
 }

@@ -104,8 +104,11 @@
                                             HorizontalAlignment="Stretch">
                                                 <TextBlock Text="Iniciar" FontSize="18" FontWeight="Bold"/>
                                             </Button>
-                                            <Button Margin="5" Height="50" Padding="10" Style="{StaticResource ButtonPrimary}" HorizontalContentAlignment="Center" 
-                                            HorizontalAlignment="Stretch"
+                                            <Button Margin="5" Height="50" Padding="10"
+                                                    Style="{StaticResource ButtonPrimary}" 
+                                                    HorizontalContentAlignment="Center" 
+                                            HorizontalAlignment="Stretch" Command="{Binding EditCommand}"
+                                                    CommandParameter="{Binding Selected}"
                                             Background="{StaticResource PrimaryBrush}"
                                             Foreground="{StaticResource TextIconBrush}">
                                                 <TextBlock Text="Editar" FontSize="18" FontWeight="Bold"/>

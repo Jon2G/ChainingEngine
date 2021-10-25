@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ChainingEngine.Models.Adelante;
 using ChainingEngine.ViewModels;
 
 namespace ChainingEngine.Views
@@ -20,12 +21,12 @@ namespace ChainingEngine.Views
     public partial class HaciaAdelanteDesigner : UserControl
     {
         public HaciaAdelanteDesignerViewModel Model { get; }
-        public HaciaAdelanteDesigner()
+        public HaciaAdelanteDesigner(MainView mainView,HaciaAdelante adelante = null)
         {
-            this.Model = new HaciaAdelanteDesignerViewModel();
+            this.Model = new HaciaAdelanteDesignerViewModel(mainView,adelante);
             this.DataContext = this.Model;
             InitializeComponent();
-            
+
         }
     }
 }

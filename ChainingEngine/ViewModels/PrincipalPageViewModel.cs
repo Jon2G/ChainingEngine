@@ -21,6 +21,7 @@ namespace ChainingEngine.ViewModels
         public ICommand HaciaAtrasCommand { get; }
         public ICommand HaciaAdelanteCommand { get; }
         public ICommand StartCommand { get; }
+        public ICommand EditCommand { get; }
         public ICommand EncadenamientoCommand { get; }
         public ObservableCollection<IEncadenamiento> AtrasEncadenamientos { get; }
         public ObservableCollection<IEncadenamiento> AdelanteEncadenamientos { get; }
@@ -49,6 +50,7 @@ namespace ChainingEngine.ViewModels
             this.HaciaAtrasCommand = new Command(HaciaAtras);
             this.PageClickCommand = new Command(PageClick);
             this.StartCommand = new Command<IEncadenamiento>(Start);
+            this.EditCommand = new Command<IEncadenamiento>(Edit);
             this.MainView = mainView;
         }
 
@@ -57,6 +59,18 @@ namespace ChainingEngine.ViewModels
             this.Selected = null;
         }
 
+        private void Edit(IEncadenamiento encadenamiento)
+        {
+            switch (encadenamiento)
+            {
+                case Models.Adelante.HaciaAdelante adelante:
+                    MainView.Content = new HaciaAdelanteDesigner(MainView,adelante);
+                    break;
+                case Models.Atras.HaciaAtras atras:
+                    MainView.Content = new HaciaAtrasDesigner(MainView, atras);
+                    break;
+            }
+        }
         private void Start(IEncadenamiento encadenamiento)
         {
             Engine.Run(MainView, encadenamiento);
@@ -68,12 +82,12 @@ namespace ChainingEngine.ViewModels
 
         private void HaciaAtras()
         {
-            MainView.Content = new HaciaAtrasDesigner();
+            MainView.Content = new HaciaAtrasDesigner(this.MainView);
         }
 
         private void HaciaAdelante()
         {
-            MainView.Content = new HaciaAdelanteDesigner();
+            MainView.Content = new HaciaAdelanteDesigner(this.MainView);
         }
     }
 }

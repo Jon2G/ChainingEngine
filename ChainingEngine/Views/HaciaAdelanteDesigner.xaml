@@ -17,6 +17,11 @@
             <DockPanel DockPanel.Dock="Top" Margin="5">
                 <TextBlock Text="Cuestionamiento:" FontSize="20"/>
                 <Button DockPanel.Dock="Right" Padding="5" Width="120" Margin="3"
+                        Style="{StaticResource ButtonDanger}" 
+                        Command="{Binding CancelCommand}">
+                    <TextBlock Text="Cancelar" FontSize="14"/>
+                </Button>
+                <Button DockPanel.Dock="Right" Padding="5" Width="120" Margin="3"
                         Style="{StaticResource ButtonPrimary}" Command="{Binding SaveCommand}">
                     <TextBlock Text="Salvar" FontSize="14"/>
                 </Button>
