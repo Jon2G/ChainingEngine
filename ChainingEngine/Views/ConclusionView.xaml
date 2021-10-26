@@ -13,7 +13,6 @@
         <hc:TransitioningContentControl TransitionMode="Bottom2Top">
             <StackPanel Margin="25" VerticalAlignment="Center">
                 <hc:SimplePanel  VerticalAlignment="Center" >
-
                     <StackPanel>
                         <TextBlock TextWrapping="Wrap" TextAlignment="Center"
                                    Text="{Binding FinalConclusion}"  FontSize="40" 

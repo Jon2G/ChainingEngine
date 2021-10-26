@@ -31,8 +31,8 @@ namespace ChainingEngine.Models.Atras
         }
         public Comportamiento(string question, Conclusion conclusion)
         {
-            this.Question = question;
-            this.Conclusion = conclusion;
+            Question = question;
+           Conclusion = conclusion;
         }
 
         public void Ask(MainView main)

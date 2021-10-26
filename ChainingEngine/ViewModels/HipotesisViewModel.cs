@@ -19,9 +19,9 @@ namespace ChainingEngine.ViewModels
         public ManualResetEvent ResetEvent { get; }
         public HipotesisViewModel(Evidencia evidencia)
         {
-            this.ResetEvent = new ManualResetEvent(false);
-            this.Evidencia = evidencia;
-            this.ActionCommand = new Command<Comportamiento>(Accion);
+            ResetEvent = new ManualResetEvent(false);
+            Evidencia = evidencia;
+            ActionCommand = new Command<Comportamiento>(Accion);
         }
 
         private void Accion(Comportamiento comportamiento)

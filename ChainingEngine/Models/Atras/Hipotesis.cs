@@ -50,7 +50,6 @@ namespace ChainingEngine.Models.Atras
                 Comportamiento comportamiento = await evidencia.Run(window);
                 this.Comportamientos.Add(comportamiento);
             }
-            //totales
 
             List<Tuple<Conclusion, int>> resultados = this.Comportamientos.GroupBy(x => x.Conclusion)
                  .Select(g => new Tuple<Conclusion, int>(g.Key, g.Select(z => z.Answer).Count())).ToList();
@@ -58,11 +57,10 @@ namespace ChainingEngine.Models.Atras
             Tuple<Conclusion, int>? Tconclusion = resultados.OrderBy(x => x.Item2).OrderByDescending(x => x.Item2).FirstOrDefault();
 
             Conclusion conclusion = Tconclusion.Item1;
-            if (resultados.Any(x => x.Item2 == Tconclusion.Item2 && x.Item1 != conclusion)) //EFECTIVAMENTE 50/50,tambien
+            if (resultados.Any(x => x.Item2 == Tconclusion.Item2 && x.Item1 != conclusion)) 
             {
                 conclusion = new Conclusion("Resultado inconcluso");
             }
-            //si sirve?
             var view = new ConclusionView();
             var model = new ConclusionViewModel(window, conclusion);
             view.DataContext = model;
