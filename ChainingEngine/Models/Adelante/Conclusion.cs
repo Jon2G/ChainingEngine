@@ -48,6 +48,10 @@ namespace ChainingEngine.Models.Adelante
 
         public void Save(Guid Guid, bool answer)
         {
+            if (ParentId != Guid.Empty)
+            {
+                this.Guid = Guid.NewGuid();
+            }
             ParentId = Guid;
             Side = answer;
             Save();
@@ -65,7 +69,7 @@ namespace ChainingEngine.Models.Adelante
 
         public override int GetHashCode()
         {
-            var a=this.Guid.GetHashCode();
+            var a = this.Guid.GetHashCode();
             return a;
         }
 
