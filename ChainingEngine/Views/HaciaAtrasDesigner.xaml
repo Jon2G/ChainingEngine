@@ -1,0 +1,112 @@
+﻿<UserControl x:Class="ChainingEngine.Views.HaciaAtrasDesigner"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ChainingEngine.Views"
+             xmlns:viewModels="clr-namespace:ChainingEngine.ViewModels"
+             xmlns:hc="https://handyorg.github.io/handycontrol" x:Name="haciaAtras"
+             xmlns:atras="clr-namespace:ChainingEngine.Models.Atras"
+             xmlns:system="clr-namespace:System;assembly=System.Runtime"
+             xmlns:models="clr-namespace:ChainingEngine.Models"
+             d:DataContext="{d:DesignInstance d:Type={x:Type viewModels:HaciaAtrasDesignerViewModel},IsDesignTimeCreatable=False}"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <hc:TransitioningContentControl>
+        <DockPanel Margin="10">
+            <DockPanel DockPanel.Dock="Top">
+                <TextBlock Text="Hipotesis:" FontSize="20"/>
+                <Button DockPanel.Dock="Right" Padding="5" Width="120" Margin="3"
+                        Style="{StaticResource ButtonDanger}" Command="{Binding CancelCommand}">
+                    <TextBlock Text="Cancelar" FontSize="14"/>
+                </Button>
+                <Button DockPanel.Dock="Right" Padding="5" Width="120" Margin="3"
+                        Style="{StaticResource ButtonPrimary}" Command="{Binding SaveCommand}">
+                    <TextBlock Text="Salvar" FontSize="14"/>
+                </Button>
+                <Button DockPanel.Dock="Right" Padding="5" Width="120" Margin="3"
+                        Style="{StaticResource ButtonSuccess}" Command="{Binding AddEvidenciaCommand}">
+                    <TextBlock Text="Nueva evidencia" FontSize="14"/>
+                </Button>
+                <Button DockPanel.Dock="Right" Padding="5" Width="120" Margin="3"
+                        Style="{StaticResource ButtonSuccess}" Command="{Binding AddConclusionCommand}">
+                    <TextBlock Text="Nueva conclusion" FontSize="14"/>
+                </Button>
+
+                <TextBox FontSize="18" Margin="10,0,0,0" DockPanel.Dock="Left" Text="{Binding Hipotesis}"/>
+            </DockPanel>
+
+
+            <DockPanel Dock="Top">
+                <Label  Width="250" DockPanel.Dock="Left" Margin="3"  HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                    <TextBlock Text="Evidencias"/>
+                </Label>
+                <Button DockPanel.Dock="Right" Padding="5" Width="35" Margin="3"
+                        Style="{StaticResource ButtonDanger}" Command="{Binding RemoveConclusionCommand}">
+                    <TextBlock Text="X" FontSize="14"/>
+                </Button>
+                <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled" HorizontalAlignment="Stretch" DockPanel.Dock="Left" Margin="3" 
+                              ScrollChanged="ScrollViewer_OnScrollChanged"  Initialized="FrameworkElement_OnInitialized">
+                    <ItemsControl ItemsSource="{Binding Conclusiones}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type models:StringObject}">
+                                <hc:TransitioningContentControl TransitionMode="Top2Bottom">
+                                    <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Width="250">
+                                        <TextBox  Text="{Binding Value}" GotMouseCapture="UIElement_OnGotMouseCapture" GotKeyboardFocus="UIElement_OnGotKeyboardFocus"/>
+                                    </Label>
+                                </hc:TransitioningContentControl>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </DockPanel>
+           <ItemsControl ItemsSource="{Binding Rows}" >
+               <ItemsControl.ItemTemplate>
+                   <DataTemplate DataType="{x:Type atras:HaciaAtrasRow}">
+                       <hc:TransitioningContentControl TransitionMode="Left2Right">
+
+                            <DockPanel Dock="Top">
+                                <Label  Width="250" DockPanel.Dock="Left" Margin="3" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                                    <TextBox Text="{Binding Evidencia}"/>
+                                </Label>
+
+
+                                <Button DockPanel.Dock="Right" Padding="5" Width="35" Margin="3"
+                                   Style="{StaticResource ButtonDanger}" Command="{Binding Model.RemoveEvidenciaCommand,ElementName=haciaAtras}" CommandParameter="{Binding .}">
+                                    <TextBlock Text="X" FontSize="14"/>
+                                </Button>
+
+
+
+                                <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled" HorizontalAlignment="Stretch" DockPanel.Dock="Left" Margin="3"
+                                          ScrollChanged="ScrollViewer_OnScrollChanged" Initialized="FrameworkElement_OnInitialized">
+                                    <ItemsControl ItemsSource="{Binding  Hechos}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate DataType="models:StringObject">
+                                                <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Width="250" >
+                                                    <TextBox Text="{Binding Value}" GotMouseCapture="UIElement_OnGotMouseCapture"/>
+                                                </Label>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </DockPanel>
+                        </hc:TransitioningContentControl>
+                    </DataTemplate>
+               </ItemsControl.ItemTemplate>
+           </ItemsControl>
+
+        </DockPanel>
+    </hc:TransitioningContentControl>
+</UserControl>

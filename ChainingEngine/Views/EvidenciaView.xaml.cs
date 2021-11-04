@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -12,23 +10,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ChainingEngine.ViewModels;
 
 namespace ChainingEngine.Views
 {
     /// <summary>
-    /// Interaction logic for PrincipalPage.xaml
+    /// Interaction logic for EvidenciaView.xaml
     /// </summary>
-    public partial class PrincipalPage
+    public partial class EvidenciaView : UserControl
     {
-        private readonly MainView MainView;
-        public PrincipalPageViewModel Model { get; }
-        public PrincipalPage(MainView mainView)
+        public EvidenciaView()
         {
             InitializeComponent();
-            this.MainView = mainView;
-            this.Model= new PrincipalPageViewModel(mainView);
-            this.DataContext = this.Model;
         }
     }
 }

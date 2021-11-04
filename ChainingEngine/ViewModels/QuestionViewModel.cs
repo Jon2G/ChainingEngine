@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,40 +14,23 @@ namespace ChainingEngine.ViewModels
 {
     public class QuestionViewModel : ModelBase
     {
-       
-        public ICommand AnswerCommand { get; set; }
         public IQuestion Question { get; }
-        public QuestionViewModel(MainView window, BaseHipotesis question)
+        public ICommand AnswerCommand { get; set; }
+        public QuestionViewModel(MainView window, ChainingEngine.Models.Adelante.Hipotesis question)
         {
             this.Question = question;
             this.AnswerCommand = new Command<bool>((b) => Answer(b, window, question));
         }
 
-        private void Answer(bool answer, MainView window, BaseHipotesis hipotesis)
+        private void Answer(bool answer, MainView window, ChainingEngine.Models.Adelante.Hipotesis hipotesis)
         {
             this.Question.Answer = answer;
-            switch (hipotesis)
+            if (answer)
             {
-                case Hipotesis<HechoInferido> inferido:
-                    if (answer)
-                    {
-                        inferido.Verdadero.Run(window);
-                        break;
-                    }
-                    inferido.Falso.Run(window);
-                    break;
-                case Hipotesis<Conclusion> conclusion:
-                    if (answer)
-                    {
-                        conclusion.Verdadero.Run(window);
-                        break;
-                    }
-
-                    conclusion.Falso.Run(window);
-                    break;
-
+                hipotesis.Verdadero.Run(window);
+                return;
             }
-
+            hipotesis.Falso.Run(window);
         }
     }
 }
