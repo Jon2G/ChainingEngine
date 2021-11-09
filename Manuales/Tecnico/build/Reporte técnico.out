@@ -1,0 +1,14 @@
+\BOOKMARK [1][-]{section.1}{Introducción}{}% 1
+\BOOKMARK [1][-]{section.2}{Marco teórico}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Sistema\040experto}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Modus\040Ponens}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Arquitectura\040de\040un\040sistema\040experto}{section.2}% 5
+\BOOKMARK [1][-]{section.3}{Desarrollo}{}% 6
+\BOOKMARK [2][-]{subsection.3.1}{Generalidades}{section.3}% 7
+\BOOKMARK [1][-]{section.4}{Proceso de Ejecución}{}% 8
+\BOOKMARK [1][-]{section.5}{Código de las clases principales}{}% 9
+\BOOKMARK [2][-]{subsection.5.1}{IQuestion}{section.5}% 10
+\BOOKMARK [2][-]{subsection.5.2}{IEncadenamiento}{section.5}% 11
+\BOOKMARK [2][-]{subsection.5.3}{Engine}{section.5}% 12
+\BOOKMARK [2][-]{subsection.5.4}{Conclusion}{section.5}% 13
+\BOOKMARK [2][-]{subsection.5.5}{Hipotesis}{section.5}% 14
